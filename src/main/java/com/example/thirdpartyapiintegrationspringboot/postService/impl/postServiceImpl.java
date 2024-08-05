@@ -1,6 +1,7 @@
 package com.example.thirdpartyapiintegrationspringboot.postService.impl;
 
 import com.example.thirdpartyapiintegrationspringboot.postService.postService;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,9 +24,10 @@ public class postServiceImpl implements postService {
     private RestTemplate restTemplate;
     @Override
     public List<Map<String, Object>> getPosts() {
-        HttpEntity<Void> httpEntity = new HttpEntity<>();
+        HttpEntity<Void> httpEntity = new HttpEntity<>(gethttpHeaders());
         String url = stringBuilder.append(post).toString();
-        return restTemplate.exchange(url, HttpMethod.GET,);
+        val response = restTemplate.exchange(url, HttpMethod.GET,httpEntity, List.class);
+        return response.getBody();
     }
 
     private HttpHeaders gethttpHeaders(){
