@@ -19,6 +19,7 @@ public class postServiceImpl implements postService {
 
     String baseUrl = "https://jsonplaceholder.typicode.com/";
     String post = "/posts";
+    String POSTBYID = "/posts/";
     StringBuilder stringBuilder = new StringBuilder(baseUrl);
     @Autowired
     private RestTemplate restTemplate;
@@ -27,6 +28,15 @@ public class postServiceImpl implements postService {
         HttpEntity<Void> httpEntity = new HttpEntity<>(gethttpHeaders());
         String url = stringBuilder.append(post).toString();
         val response = restTemplate.exchange(url, HttpMethod.GET,httpEntity, List.class);
+        return response.getBody();
+    }
+
+    @Override
+    public Map<String, Object> getPostById(int id) {
+        HttpEntity<Void> httpEntity = new HttpEntity<>(gethttpHeaders());
+        String url = stringBuilder.append(POSTBYID).append(id).toString();
+        System.out.println("MY URL = "+url);
+        val response = restTemplate.exchange(url, HttpMethod.GET,httpEntity, Map.class);
         return response.getBody();
     }
 

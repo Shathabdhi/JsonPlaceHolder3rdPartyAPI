@@ -6,4 +6,6 @@ import java.util.Objects;
 
 public interface postService {
     List<Map<String, Object>>getPosts();
+
+    Map<String,Object>getPostById(int id);
 }
