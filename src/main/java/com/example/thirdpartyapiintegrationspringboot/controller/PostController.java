@@ -2,10 +2,7 @@ package com.example.thirdpartyapiintegrationspringboot.controller;
 
 import com.example.thirdpartyapiintegrationspringboot.postService.postService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -20,8 +17,21 @@ public class PostController {
         return postService1.getPosts();
     }
     @GetMapping("/getPostsById/{id}")
-    Map<String,Object>getAllPosts(@PathVariable int id){
+    Map<String,Object>getPostsById(@PathVariable int id){
         return postService1.getPostById(id);
+    }
+    @PostMapping("/insertPosts")
+    Map<String,Object>insertPost(@RequestBody Map<String,Object> payload){
+        return postService1.insertPosts(payload);
+    }
+
+    @PutMapping("/updatePosts/{id}")
+    Map<String,Object>updatePosts(@RequestBody Map<String,Object> payload,int id){
+        return postService1.updatePosts(payload,id);
+    }
+    @DeleteMapping("/deletePosts/{id}")
+    Map<String,Object>deletePost(@PathVariable int id){
+        return postService1.deletePost(id);
     }
 
 }

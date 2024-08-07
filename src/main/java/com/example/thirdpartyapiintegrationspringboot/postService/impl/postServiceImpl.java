@@ -34,14 +34,40 @@ public class postServiceImpl implements postService {
     @Override
     public Map<String, Object> getPostById(int id) {
         HttpEntity<Void> httpEntity = new HttpEntity<>(gethttpHeaders());
-       // String url = stringBuilder.append(POSTBYID).append(id).toString();
-        String url = baseUrl+POSTBYID+id;
-        System.out.println("MY URL = "+url);
-        val response = restTemplate.exchange(url, HttpMethod.GET,httpEntity, Map.class);
+        String url = "https://jsonplaceholder.typicode.com/posts/{id}";
+//       val response = restTemplate.exchange(url, HttpMethod.GET,httpEntity, Map.class);
+        val response = restTemplate.exchange(url, HttpMethod.GET,httpEntity, Map.class,id);
+        //System.out.println(restTemplate.getForEntity());
         return response.getBody();
     }
 
-    private HttpHeaders gethttpHeaders(){
+    @Override
+    public Map<String, Object> insertPosts(Map<String, Object> payload) {
+        HttpEntity<Map> httpEntity = new HttpEntity<>(payload,gethttpHeaders());
+        String url = "https://jsonplaceholder.typicode.com/posts";
+        val response = restTemplate.exchange(url, HttpMethod.POST,httpEntity, Map.class,payload);
+        return response.getBody();
+    }
+
+    @Override
+    public Map<String, Object> updatePosts(Map<String,Object> payload,int id) {
+        HttpEntity<Map> httpEntity = new HttpEntity<>(payload,gethttpHeaders());
+        String url = "https://jsonplaceholder.typicode.com/"+ "{POSTBYID}"+"{id}";
+        val response = restTemplate.exchange(url, HttpMethod.PUT,httpEntity, Map.class,payload,id);
+        return response.getBody();
+    }
+
+    @Override
+    public Map<String, Object> deletePost(int id) {
+        HttpEntity<Map> httpEntity = new HttpEntity<>(gethttpHeaders());
+        String url = "https://jsonplaceholder.typicode.com/posts/{id}";
+        val response = restTemplate.exchange(url, HttpMethod.DELETE,httpEntity, Map.class,id);
+        return response.getBody();
+    }
+
+
+    //We need a http entity to pass into the HTTP method in the above method so creating the below
+     private HttpHeaders gethttpHeaders(){
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
