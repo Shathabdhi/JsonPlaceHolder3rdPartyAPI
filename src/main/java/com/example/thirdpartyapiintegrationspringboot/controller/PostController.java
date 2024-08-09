@@ -33,5 +33,4 @@ public class PostController {
     Map<String,Object>deletePost(@PathVariable int id){
         return postService1.deletePost(id);
     }
-
 }
